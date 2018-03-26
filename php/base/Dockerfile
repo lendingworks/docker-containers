@@ -1,5 +1,8 @@
-FROM php:7.2-fpm-alpine3.7
-MAINTAINER Chin Godawita <chinthaka.godawita@lendingworks.co.uk>
+# One of 'cli' or 'fpm' (as per https://hub.docker.com/_/php/).
+ARG PHP_TYPE=cli
+ARG PHP_VERSION=7.2
+ARG ALPINE_VERSION=3.7
+FROM php:${PHP_VERSION}-${PHP_TYPE}-alpine${ALPINE_VERSION}
 
 RUN apk add --no-cache --update --virtual build-deps \
     autoconf \
@@ -12,6 +15,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     libpng-dev \
     libjpeg-turbo-dev \
     libxml2-dev \
+    libssh2-dev \
     curl-dev \
     postgresql-dev \
     libmemcached-dev \
@@ -24,6 +28,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     mysql-client \
     postgresql-client \
     curl \
+    wget \
   && docker-php-ext-install -j$(nproc) \
     mbstring \
     zip \
@@ -37,8 +42,15 @@ RUN apk add --no-cache --update --virtual build-deps \
     opcache \
     soap \
     xml \
-  && pecl install igbinary memcached redis \
-  && docker-php-ext-enable igbinary memcached redis \
+  && pecl install igbinary memcached redis ssh2-1.1.2 \
+  && docker-php-ext-enable igbinary memcached redis ssh2 \
   && rm -rf /tmp/pear \
   && apk del --no-cache build-deps
 
+COPY ./conf/fpm-zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+EXPOSE 9090
+
+COPY ./conf/php.ini /usr/local/etc/php/
+
+RUN mkdir -p /data/www
+WORKDIR /data/www

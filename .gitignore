@@ -1,2 +1,6 @@
 .idea
 .sublime*
+
+# Copied SSL files.
+ca/
+nginx/*/conf/ssl
