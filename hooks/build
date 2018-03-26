@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+ALPINE_VERSION="3.7"
+PHP_VERSION="7.2"
+NGINX_VERSION="1.13"
+
+docker build -t ${IMAGE_NAME} -f $DOCKERFILE_PATH \
+	--build-arg=ALPINE_VERSION=$ALPINE_VERSION \
+	--build-arg=PHP_VERSION=$PHP_VERSION \
+	--build-arg=NGINX_VERSION=$NGINX_VERSION \
+	.
