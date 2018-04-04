@@ -4,6 +4,9 @@ ARG PHP_VERSION=7.2
 ARG ALPINE_VERSION=3.7
 FROM php:${PHP_VERSION}-${PHP_TYPE}-alpine${ALPINE_VERSION}
 
+# Increment this to trigger a full rebuild.
+ENV CONTAINER_VERSION '1.0.0'
+
 RUN apk add --no-cache --update --virtual build-deps \
     autoconf \
     g++ \
