@@ -13,9 +13,4 @@ elif [[ ${IMAGE_NAME} = *"cli"* ]]; then
   PHP_TYPE="cli"
 fi
 
-docker build -t ${IMAGE_NAME} -f ${DOCKERFILE_PATH} \
-	--build-arg=ALPINE_VERSION=${ALPINE_VERSION} \
-	--build-arg=PHP_VERSION=${PHP_VERSION} \
-	--build-arg=PHP_TYPE=${PHP_TYPE} \
-	--build-arg=NGINX_VERSION=${NGINX_VERSION} \
-	.
+docker build -t ${IMAGE_NAME} -f ${DOCKERFILE_PATH} --build-arg=ALPINE_VERSION=${ALPINE_VERSION} --build-arg=PHP_VERSION=${PHP_VERSION} --build-arg=PHP_TYPE=${PHP_TYPE} .
