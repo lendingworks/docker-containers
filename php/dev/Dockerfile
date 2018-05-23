@@ -1,5 +1,5 @@
 # One of 'cli' or 'fpm' (as per https://hub.docker.com/_/php/).
-ARG PHP_TYPE=cli
+ARG PHP_TYPE
 ARG PHP_VERSION=7.2
 FROM lendingworks/php:${PHP_VERSION}-${PHP_TYPE}
 
