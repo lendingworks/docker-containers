@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 TAG_PREFIX = "lendingworks"
-PHP_VERSION = "7.2"
+PHP_VERSIONS = ["7.1", "7.2"]
 NGINX_VERSION = "1.13"
 ALPINE_VERSION = "3.7"
 
@@ -50,17 +50,19 @@ end
 
 def do_php_build(dir:, php_tag:, pull: true)
   ["fpm", "cli"].each do |type|
-    ["#{php_tag}:#{PHP_VERSION}-#{type}", "#{php_tag}:latest-#{type}"].each do |tag|
-      build(
-        tag: tag,
-        dir: dir,
-        args: {
-          "ALPINE_VERSION" => ALPINE_VERSION,
-          "PHP_VERSION" => PHP_VERSION,
-          "PHP_TYPE" => type,
-        },
-        pull: pull
-      )
+    PHP_VERSIONS.each do |version|
+      ["#{php_tag}:#{version}-#{type}", "#{php_tag}:latest-#{type}"].each do |tag|
+        build(
+          tag: tag,
+          dir: dir,
+          args: {
+            "ALPINE_VERSION" => ALPINE_VERSION,
+            "PHP_VERSION" => version,
+            "PHP_TYPE" => type,
+          },
+          pull: pull
+        )
+      end
     end
   end
 end
