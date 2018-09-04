@@ -3,6 +3,7 @@
 TAG_PREFIX = "lendingworks"
 PHP_VERSIONS = ["7.1", "7.2"]
 NGINX_VERSION = "1.13"
+RSYSLOG_VERSION = "8.31.0-r0"
 ALPINE_VERSION = "3.7"
 
 def get_timestamp
@@ -84,3 +85,15 @@ finishTime = Time.now
 diffTime = finishTime - startTime
 
 puts "\e[1;32m[#{get_timestamp}] All builds complete in #{diffTime.to_s} secs!\e[0m"
+
+# Build rsyslog container.
+["rsyslog:#{RSYSLOG_VERSION}", "rsyslog:latest"].each do |tag|
+  build(
+    tag: tag,
+    dir: "rsyslog",
+    args: {
+      "ALPINE_VERSION" => ALPINE_VERSION,
+      "RSYSLOG_VERSION" => RSYSLOG_VERSION,
+    }
+  )
+end
