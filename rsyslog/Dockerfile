@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=3.7
 FROM alpine:${ALPINE_VERSION}
 
-ARG RSYSLOG_VERSION
+ARG RSYSLOG_VERSION=8.31.0-r0
 
 RUN apk add --no-cache --update rsyslog=${RSYSLOG_VERSION} bash \
   && rm -f /tmp/* /etc/apk/cache/*
