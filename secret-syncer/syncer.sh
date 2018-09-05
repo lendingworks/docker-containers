@@ -31,7 +31,6 @@ while :; do
   err=0
 
   if [[ -f "${SRC_FILE}" ]]; then
-  # echo "" > /dev/null 2>&1
     cmp -s "${SRC_FILE}" "${DEST_FILE}" \
       || echo -e "Files changed, syncing..." && cp "${SRC_FILE}" "${DEST_FILE}"
     err=0 || err=$?
