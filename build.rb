@@ -97,3 +97,12 @@ puts "\e[1;32m[#{get_timestamp}] All builds complete in #{diffTime.to_s} secs!\e
     }
   )
 end
+
+# Build secret sync container.
+["secret-syncer:v1", "secret-syncer:latest"].each do |tag|
+  build(
+    tag: tag,
+    dir: "secret-syncer"
+  )
+end
+puts "\e[1;32m[#{get_timestamp}] All builds complete in #{diffTime.to_s} secs!\e[0m"
