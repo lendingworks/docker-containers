@@ -32,7 +32,7 @@ while :; do
 
   if [[ -f "${SRC_FILE}" ]]; then
     cmp -s "${SRC_FILE}" "${DEST_FILE}" \
-      || echo -e "Files changed, syncing..." && cp "${SRC_FILE}" "${DEST_FILE}"
+      || echo -e "Files changed, syncing..." && cp -L "${SRC_FILE}" "${DEST_FILE}"
     err=0 || err=$?
   else
     echo -e "File '${SRC_FILE}' not found, trying again in ${SYNC_INTERVAL} secs."
