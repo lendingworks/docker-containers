@@ -24,6 +24,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     libmemcached-dev \
     cyrus-sasl-dev \
   && apk add --no-cache \
+    socat \
     libpng \
     libmemcached \
     bash \
@@ -33,6 +34,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     curl \
     wget \
   && docker-php-ext-install -j$(nproc) \
+    exif \
     mbstring \
     zip \
     bcmath \
@@ -49,6 +51,19 @@ RUN apk add --no-cache --update --virtual build-deps \
   && docker-php-ext-enable igbinary memcached redis ssh2 \
   && rm -rf /tmp/pear \
   && apk del --no-cache build-deps
+
+# NewRelic setup.
+RUN mkdir /opt && cd /opt \
+  && export NEWRELIC_VERSION=$(curl -sS https://download.newrelic.com/php_agent/release/ | sed -n 's/.*>\(.*linux-musl\).tar.gz<.*/\1/p') \
+  && wget "http://download.newrelic.com/php_agent/release/${NEWRELIC_VERSION}.tar.gz" \
+  && gzip -dc ${NEWRELIC_VERSION}.tar.gz | tar xf - \
+  && cd "${NEWRELIC_VERSION}" \
+  && NR_INSTALL_SILENT=true NR_INSTALL_USE_CP_NOT_LN=true ./newrelic-install install \
+  && cd .. \
+  && rm -rf "${NEWRELIC_VERSION}"*
+
+# Disabled by default.
+ENV NEWRELIC_ENABLED=0
 
 COPY ./conf/fpm-zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 EXPOSE 9090
