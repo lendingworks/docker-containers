@@ -105,4 +105,13 @@ end
     dir: "secret-syncer"
   )
 end
+
+# Build NewRelic PHP daemon container.
+["newrelic-php-daemon:v1", "newrelic-php-daemon:latest"].each do |tag|
+  build(
+    tag: tag,
+    dir: "newrelic-php-daemon"
+  )
+end
+
 puts "\e[1;32m[#{get_timestamp}] All builds complete in #{diffTime.to_s} secs!\e[0m"
