@@ -33,6 +33,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     postgresql-client \
     curl \
     wget \
+    sudo \
   && docker-php-ext-install -j$(nproc) \
     exif \
     mbstring \
