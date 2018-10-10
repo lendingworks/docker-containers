@@ -48,6 +48,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     opcache \
     soap \
     xml \
+    pcntl \
   && pecl install igbinary memcached redis ssh2-1.1.2 \
   && docker-php-ext-enable igbinary memcached redis ssh2 \
   && rm -rf /tmp/pear \
