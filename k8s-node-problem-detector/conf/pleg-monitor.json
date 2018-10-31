@@ -1,0 +1,25 @@
+{
+  "plugin": "journald",
+  "pluginConfig": {
+    "source": "kernel"
+  },
+  "logPath": "/var/log/journal",
+  "lookback": "5m",
+  "bufferSize": 10,
+  "source": "pleg-monitor",
+  "conditions": [
+    {
+      "type": "PLEGNotHealthy",
+      "reason": "PLEGHealthy",
+      "message": "pleg is healthy on this node"
+    }
+  ],
+  "rules": [
+    {
+      "type": "permanent",
+      "condition": "PLEGNotHealthy",
+      "reason": "PLEGHasFailed",
+      "pattern": "PLEG is not healthy"
+    }
+  ]
+}
