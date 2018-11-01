@@ -21,7 +21,7 @@ ARG CORVUS_VERSION=0.2.7
 COPY --from=builder "/opt/corvus-${CORVUS_VERSION}/src/corvus" /corvus
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
-  && apt-get install -y wget bash procps \
+  && apt-get install -y wget bash procps redis-tools \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
