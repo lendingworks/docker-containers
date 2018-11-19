@@ -34,6 +34,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     curl \
     wget \
     sudo \
+    tzdata \
   && docker-php-ext-install -j$(nproc) \
     exif \
     mbstring \
