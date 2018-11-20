@@ -56,17 +56,23 @@ function wait-for-status {
 rds-delete "${target_instance_identifier}" "${region}"
 
 echo "Creating new database: ${target_instance_identifier}"
-aws rds restore-db-instance-to-point-in-time \
-  --region="${region}" \
-  --source-db-instance-identifier="${source_instance_identifier}" \
-  --target-db-instance-identifier="${target_instance_identifier}" \
-  --db-instance-class="${instance_class}" \
-  --restore-time="${restore_time}" \
-  --no-multi-az \
-  --no-auto-minor-version-upgrade \
-  --db-subnet-group-name="${subnet_group}" \
-  --storage-type="${storage_type}" \
-  --iops="${storage_iops}"
+RESTORE_CMD="aws rds restore-db-instance-to-point-in-time
+  --region='${region}'
+  --source-db-instance-identifier='${source_instance_identifier}'
+  --target-db-instance-identifier='${target_instance_identifier}'
+  --db-instance-class='${instance_class}'
+  --restore-time='${restore_time}'
+  --no-multi-az
+  --no-auto-minor-version-upgrade
+  --db-subnet-group-name='${subnet_group}'
+  --storage-type='${storage_type}'"
+
+# Only 'io1' supports specifying IOPS.
+if [[ "${storage_type}" == "io1" ]]; then
+  RESTORE_CMD="${RESTORE_CMD} --iops='${storage_iops}'"
+fi
+
+eval $RESTORE_CMD
 
 echo "Waiting for new DB instance to be available"
 
