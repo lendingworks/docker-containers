@@ -55,9 +55,3 @@ try:
 except ClientError as e:
     print("  > Unexpected error: %s" % e)
     sys.exit(1)
-    # if e.response['Error']['Code'] == 'DBClusterNotFoundFault':
-    #     print("  > Cluster not found")
-    #     sys.exit(0)
-    # else:
-    #     print("  > Unexpected error: %s" % e)
-    #     sys.exit(1)
