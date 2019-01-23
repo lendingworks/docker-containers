@@ -84,5 +84,5 @@ if __name__ == "__main__":
     region = args.region
 
     success = delete_cluster(cluster_name, region)
-    exit_code = 0 if success else 0
+    exit_code = 0 if success else 1
     sys.exit(exit_code)
