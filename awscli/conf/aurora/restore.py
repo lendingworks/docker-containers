@@ -51,6 +51,9 @@ try:
     instance_waiter = rds.get_waiter('db_instance_available')
     instance_waiter.wait(
         DBInstanceIdentifier=db_instance_identifier,
+        WaiterConfig={
+            'MaxAttempts': 180
+        },
     )
 except ClientError as e:
     print("  > Unexpected error: %s" % e)

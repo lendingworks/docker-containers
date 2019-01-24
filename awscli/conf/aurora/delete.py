@@ -49,6 +49,9 @@ def delete_cluster(cluster_name, region):
             instance_waiter = rds.get_waiter('db_instance_deleted')
             instance_waiter.wait(
                 DBInstanceIdentifier=db_instance['DBInstanceIdentifier'],
+                WaiterConfig={
+                    'MaxAttempts': 180
+                },
             )
 
         if instance_count > 0:
