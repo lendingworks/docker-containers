@@ -49,10 +49,13 @@ try:
     # Wait for instance to be available.
     print("  > Waiting for instance to be available")
     instance_waiter = rds.get_waiter('db_instance_available')
+    # The database may take up to 2 hours to restore if it has a large amount
+    # of data, we wait up to 3 hours, just to be safe.
+    # Max wait is equal to the delay (30s) multiplied by the max attempts.
     instance_waiter.wait(
         DBInstanceIdentifier=db_instance_identifier,
         WaiterConfig={
-            'MaxAttempts': 180
+            'MaxAttempts': 360
         },
     )
 except ClientError as e:
