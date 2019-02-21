@@ -58,6 +58,8 @@ try:
             'MaxAttempts': 360
         },
     )
+
+    print("Instance is now available")
 except ClientError as e:
     print("  > Unexpected error: %s" % e)
     sys.exit(1)
