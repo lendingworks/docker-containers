@@ -55,7 +55,7 @@ RUN apk add --no-cache --update --virtual build-deps \
   && apk del --no-cache build-deps
 
 # NewRelic setup.
-RUN mkdir /opt && cd /opt \
+RUN mkdir -p /opt && cd /opt \
   && export NEWRELIC_VERSION=$(curl -sS https://download.newrelic.com/php_agent/release/ | sed -n 's/.*>\(.*linux-musl\).tar.gz<.*/\1/p') \
   && wget "http://download.newrelic.com/php_agent/release/${NEWRELIC_VERSION}.tar.gz" \
   && gzip -dc ${NEWRELIC_VERSION}.tar.gz | tar xf - \
