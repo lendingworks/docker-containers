@@ -1,4 +1,4 @@
-ARG ALPINE_VERSION=3.8
+ARG ALPINE_VERSION=3.9
 FROM alpine:${ALPINE_VERSION}
 
 RUN apk add --update --no-cache bash socat curl \
