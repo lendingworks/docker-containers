@@ -2,7 +2,6 @@
 
 # This is very simple build setup, the long-term goal is to move this off
 # Docker Hub.
-ALPINE_VERSION="3.7"
 PHP_VERSION="7.2"
 NGINX_VERSION="1.13"
 
@@ -14,7 +13,6 @@ elif [[ ${IMAGE_NAME} = *"cli"* ]]; then
 fi
 
 docker build -t "${IMAGE_NAME}" \
-	--build-arg=ALPINE_VERSION=${ALPINE_VERSION} \
 	--build-arg=PHP_VERSION=${PHP_VERSION} \
 	--build-arg=PHP_TYPE=${PHP_TYPE} \
 	--build-arg=NGINX_VERSION=${NGINX_VERSION} \
