@@ -4,7 +4,7 @@ FROM alpine:${ALPINE_VERSION}
 RUN apk add --update --no-cache bash socat curl \
   && rm -f /tmp/* /etc/apk/cache/*
 
-RUN mkdir /opt && cd /opt \
+RUN mkdir -p /opt && cd /opt \
   && export NEWRELIC_VERSION=$(curl -sS https://download.newrelic.com/php_agent/release/ | sed -n 's/.*>\(.*linux-musl\).tar.gz<.*/\1/p') \
   && wget "http://download.newrelic.com/php_agent/release/${NEWRELIC_VERSION}.tar.gz" \
   && gzip -dc ${NEWRELIC_VERSION}.tar.gz | tar xf - \
