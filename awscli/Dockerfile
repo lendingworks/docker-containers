@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=3.9
 FROM alpine:${ALPINE_VERSION}
 
-ARG AWSCLI_VERSION=1.16.93
+ARG AWSCLI_VERSION=1.16.116
 
 RUN apk add --update --no-cache \
     bash \
