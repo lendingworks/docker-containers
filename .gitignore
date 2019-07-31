@@ -1,6 +1,7 @@
 .idea
 .sublime*
 *.pyc
+.env
 
 # Copied SSL files.
 ca/
