@@ -8,6 +8,8 @@ RUN apk add --update --no-cache \
     curl \
     python3 \
     jq \
+    mysql-client \
+    postgresql \
   && pip3 install --upgrade awscli==${AWSCLI_VERSION} boto3 \
   && rm -f /tmp/* /etc/apk/cache/*
 
