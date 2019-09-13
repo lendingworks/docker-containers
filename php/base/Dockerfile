@@ -54,14 +54,25 @@ RUN apk add --no-cache --update --virtual build-deps \
   && apk del --no-cache build-deps
 
 # NewRelic setup.
+ENV NEWRELIC_VERSION="8.7.0.242"
 RUN mkdir -p /opt && cd /opt \
-  && export NEWRELIC_VERSION=$(curl -sS https://download.newrelic.com/php_agent/release/ | sed -n 's/.*>\(.*linux-musl\).tar.gz<.*/\1/p') \
-  && wget "http://download.newrelic.com/php_agent/release/${NEWRELIC_VERSION}.tar.gz" \
-  && gzip -dc ${NEWRELIC_VERSION}.tar.gz | tar xf - \
-  && cd "${NEWRELIC_VERSION}" \
+  && export NEWRELIC_RELEASE="newrelic-php5-${NEWRELIC_VERSION}-linux-musl" \
+  && wget "http://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/${NEWRELIC_RELEASE}.tar.gz" \
+  && gzip -dc ${NEWRELIC_RELEASE}.tar.gz | tar xf - \
+  && cd "${NEWRELIC_RELEASE}" \
   && NR_INSTALL_SILENT=true NR_INSTALL_USE_CP_NOT_LN=true ./newrelic-install install \
   && cd .. \
-  && rm -rf "${NEWRELIC_VERSION}"*
+  && rm -rf "${NEWRELIC_RELEASE}"*
+
+# Disabled till NewRelic fix the memory leak in agent version 9.
+# RUN mkdir -p /opt && cd /opt \
+#   && export NEWRELIC_VERSION=$(curl -sS https://download.newrelic.com/php_agent/release/ | sed -n 's/.*>\(.*linux-musl\).tar.gz<.*/\1/p') \
+#   && wget "http://download.newrelic.com/php_agent/release/${NEWRELIC_VERSION}.tar.gz" \
+#   && gzip -dc ${NEWRELIC_VERSION}.tar.gz | tar xf - \
+#   && cd "${NEWRELIC_VERSION}" \
+#   && NR_INSTALL_SILENT=true NR_INSTALL_USE_CP_NOT_LN=true ./newrelic-install install \
+#   && cd .. \
+#   && rm -rf "${NEWRELIC_VERSION}"*
 
 # Disabled by default.
 ENV NEWRELIC_ENABLED=0
