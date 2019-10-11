@@ -60,6 +60,12 @@ RUN chmod +x /usr/local/bin/drush
 # Install composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && mkdir /.composer
 
+# FPM health check.
+ENV FPM_HEALTHCHECK_VERSION="0.3.0"
+ENV PHP_TYPE=${PHP_TYPE}
+COPY ./conf/install-fpm-healthcheck.sh /usr/local/bin/install-fpm-healthcheck
+RUN export PHP_TYPE && /usr/local/bin/install-fpm-healthcheck
+
 # NewRelic setup.
 ENV NEWRELIC_VERSION="8.7.0.242"
 RUN mkdir -p /opt && cd /opt \
