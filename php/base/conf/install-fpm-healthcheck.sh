@@ -2,11 +2,15 @@
 
 set -xe
 
-if [[ -z ${1:-} ]]; then
-  echo -e "Usage: install-fpm-healthcheck PHP_TYPE"
+if [[ "$#" -ne 2 ]]; then
+  echo -e "Usage: install-fpm-healthcheck PHP_TYPE VERSION"
   echo -e "  PHP_TYPE must be one of 'fpm' or 'cli'"
+  echo -e "  VERSION is a git release tag from github.com/renatomefi/php-fpm-healthcheck"
   exit 1
 fi
+
+PHP_TYPE=${1:-}
+FPM_HEALTHCHECK_VERSION=${2:-}
 
 if [[ ${PHP_TYPE:-} != 'fpm' ]]; then
   echo -e "Skipping FPM health check install, not a FPM container."
@@ -15,8 +19,6 @@ fi
 
 # fcgi is required for the health check.
 apk add --no-cache fcgi
-
-FPM_HEALTHCHECK_VERSION=${FPM_HEALTHCHECK_VERSION:-0.4.0}
 
 curl --silent --location \
   "https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/v${FPM_HEALTHCHECK_VERSION}/php-fpm-healthcheck" \
