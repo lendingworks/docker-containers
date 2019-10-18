@@ -10,7 +10,7 @@ fi
 # fcgi is required for the health check.
 apk add --no-cache fcgi
 
-FPM_HEALTHCHECK_VERSION=${FPM_HEALTHCHECK_VERSION:-0.3.0}
+FPM_HEALTHCHECK_VERSION=${FPM_HEALTHCHECK_VERSION:-0.4.0}
 
 curl --silent --location \
   "https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/v${FPM_HEALTHCHECK_VERSION}/php-fpm-healthcheck"
