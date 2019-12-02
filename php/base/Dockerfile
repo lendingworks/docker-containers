@@ -1,6 +1,6 @@
 # One of 'cli' or 'fpm' (as per https://hub.docker.com/_/php/).
 ARG PHP_TYPE
-ARG PHP_VERSION=7.2
+ARG PHP_VERSION=7.4
 FROM php:${PHP_VERSION}-${PHP_TYPE}-alpine
 
 # Increment this to trigger a full rebuild.
@@ -27,7 +27,8 @@ RUN apk add --no-cache --update --virtual build-deps \
     postgresql-dev \
     libmemcached-dev \
     cyrus-sasl-dev \
-    zlib-dev \
+    oniguruma-dev \
+    libzip-dev \
     linux-headers \
   && apk add --no-cache \
     socat \
@@ -42,6 +43,8 @@ RUN apk add --no-cache --update --virtual build-deps \
     sudo \
     doas \
     tzdata \
+    oniguruma \
+    libzip \
   && docker-php-ext-install -j$(nproc) \
     exif \
     mbstring \
@@ -70,10 +73,9 @@ RUN echo -e "permit nopass keepenv root as www-data" >> /etc/doas.conf
 RUN curl -s -L https://github.com/drush-ops/drush/releases | egrep -o '/drush-ops/drush/releases/download/[v.0-8]*/drush.phar' | head -n1 | wget --base=http://github.com/ -i - -O /usr/local/bin/drush
 RUN chmod +x /usr/local/bin/drush
 
-# Install composer & prestissimo for parallel installs.
+# Install composer.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-  && mkdir /.composer \
-  && composer global require hirak/prestissimo
+  && mkdir /.composer
 
 # FPM health check.
 COPY ./conf/install-fpm-healthcheck.sh /usr/local/bin/install-fpm-healthcheck

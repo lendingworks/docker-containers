@@ -58,7 +58,7 @@ containers:
     path: php/base
     build_args:
       - 'PHP_TYPE=cli'
-      - 'PHP_VERSION=7.2'
+      - 'PHP_VERSION=7.4'
     tags:
       - 'latest-cli'
 
@@ -66,9 +66,25 @@ containers:
     path: php/base
     build_args:
       - 'PHP_TYPE=fpm'
-      - 'PHP_VERSION=7.2'
+      - 'PHP_VERSION=7.4'
     tags:
       - 'latest-fpm'
+
+  - name: php
+    path: php/base
+    build_args:
+      - 'PHP_TYPE=cli'
+      - 'PHP_VERSION=7.4'
+    tags:
+      - '7.4-cli'
+
+  - name: php
+    path: php/base
+    build_args:
+      - 'PHP_TYPE=fpm'
+      - 'PHP_VERSION=7.4'
+    tags:
+      - '7.4-fpm'
 
   - name: php
     path: php/base
@@ -90,7 +106,7 @@ containers:
     path: php/dev
     build_args:
       - 'PHP_TYPE=cli'
-      - 'PHP_VERSION=7.2'
+      - 'PHP_VERSION=7.4'
     tags:
       - 'latest-cli'
 
@@ -98,9 +114,25 @@ containers:
     path: php/dev
     build_args:
       - 'PHP_TYPE=fpm'
-      - 'PHP_VERSION=7.2'
+      - 'PHP_VERSION=7.4'
     tags:
       - 'latest-fpm'
+
+  - name: php-dev
+    path: php/dev
+    build_args:
+      - 'PHP_TYPE=cli'
+      - 'PHP_VERSION=7.4'
+    tags:
+      - '7.4-cli'
+
+  - name: php-dev
+    path: php/dev
+    build_args:
+      - 'PHP_TYPE=fpm'
+      - 'PHP_VERSION=7.4'
+    tags:
+      - '7.4-fpm'
 
   - name: php-dev
     path: php/dev

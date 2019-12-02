@@ -2,7 +2,7 @@
 
 # This is very simple build setup, the long-term goal is to move this off
 # Docker Hub.
-PHP_VERSION="7.2"
+PHP_VERSION="7.4"
 NGINX_VERSION="1.13"
 
 PHP_TYPE=""
