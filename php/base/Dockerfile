@@ -57,8 +57,10 @@ RUN apk add --no-cache --update --virtual build-deps \
 RUN curl -s -L https://github.com/drush-ops/drush/releases | egrep -o '/drush-ops/drush/releases/download/[v.0-8]*/drush.phar' | head -n1 | wget --base=http://github.com/ -i - -O /usr/local/bin/drush
 RUN chmod +x /usr/local/bin/drush
 
-# Install composer.
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && mkdir /.composer
+# Install composer & prestissimo for parallel installs.
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+  && mkdir /.composer \
+  && composer global require hirak/prestissimo
 
 # FPM health check.
 COPY ./conf/install-fpm-healthcheck.sh /usr/local/bin/install-fpm-healthcheck
