@@ -1,0 +1,26 @@
+{
+  "name": "github-backup",
+  "version": "1.0.0",
+  "description": "Backs up your Github Organisation to an S3 bucket on a regular basis.",
+  "main": "index.ts",
+  "repository": "https://github.com/lendingworks/docker-containers",
+  "license": "MIT",
+  "scripts": {
+    "build": "ncc build index.ts --out dist",
+    "watch": "nodemon --exec 'ncc run' ./index.ts",
+    "start": "ncc run ./index.ts"
+  },
+  "dependencies": {
+    "@octokit/rest": "^16.38.3",
+    "@zeit/ncc": "^0.21.0",
+    "aws-sdk": "^2.610.0",
+    "node-fetch": "^2.6.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.5.0",
+    "@types/node-fetch": "^2.5.4",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.7.5"
+  }
+}
