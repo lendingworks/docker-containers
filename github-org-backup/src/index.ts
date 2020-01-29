@@ -120,7 +120,7 @@ class GithubOrgBackup {
       val = process.env[name] as string
     }
 
-    return val;
+    return val.trim();
   }
 
   /**
