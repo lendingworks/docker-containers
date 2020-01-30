@@ -1,3 +1,6 @@
 .circleci/
 .git/
 *.pyc
+Dockerfile
+node_modules/
+dist/
