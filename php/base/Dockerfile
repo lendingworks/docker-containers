@@ -6,6 +6,12 @@ FROM php:${PHP_VERSION}-${PHP_TYPE}-alpine
 # Increment this to trigger a full rebuild.
 ENV CONTAINER_VERSION '1.0.0'
 
+# Fix `iconv` issues with Alpine.
+# This needs to run before we do any other installs.
+# See https://github.com/docker-library/php/issues/240
+RUN apk add --no-cache --update gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+
 RUN apk add --no-cache --update --virtual build-deps \
     autoconf \
     g++ \
@@ -33,7 +39,6 @@ RUN apk add --no-cache --update --virtual build-deps \
     wget \
     sudo \
     tzdata \
-    gnu-libiconv \
   && docker-php-ext-install -j$(nproc) \
     exif \
     mbstring \
@@ -49,14 +54,11 @@ RUN apk add --no-cache --update --virtual build-deps \
     soap \
     xml \
     pcntl \
+    iconv \
   && pecl install igbinary memcached redis \
   && docker-php-ext-enable igbinary memcached redis \
   && rm -rf /tmp/pear \
   && apk del --no-cache build-deps
-
-# Fix `iconv` issues with Alpine:
-# See https://github.com/docker-library/php/issues/240
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # Install drush.
 RUN curl -s -L https://github.com/drush-ops/drush/releases | egrep -o '/drush-ops/drush/releases/download/[v.0-8]*/drush.phar' | head -n1 | wget --base=http://github.com/ -i - -O /usr/local/bin/drush
