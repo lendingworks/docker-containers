@@ -38,6 +38,7 @@ RUN apk add --no-cache --update --virtual build-deps \
     curl \
     wget \
     sudo \
+    doas \
     tzdata \
   && docker-php-ext-install -j$(nproc) \
     exif \
@@ -59,6 +60,9 @@ RUN apk add --no-cache --update --virtual build-deps \
   && docker-php-ext-enable igbinary memcached redis \
   && rm -rf /tmp/pear \
   && apk del --no-cache build-deps
+
+# Allow root to execute things as www-data, via `doas`.
+RUN echo -e "permit nopass keepenv root as www-data" >> /etc/doas.conf
 
 # Install drush.
 RUN curl -s -L https://github.com/drush-ops/drush/releases | egrep -o '/drush-ops/drush/releases/download/[v.0-8]*/drush.phar' | head -n1 | wget --base=http://github.com/ -i - -O /usr/local/bin/drush
