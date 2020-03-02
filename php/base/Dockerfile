@@ -80,7 +80,7 @@ ARG PHP_TYPE
 RUN /usr/local/bin/install-fpm-healthcheck ${PHP_TYPE} ${FPM_HEALTHCHECK_VERSION}
 
 # NewRelic setup.
-ENV NEWRELIC_VERSION="8.7.0.242"
+ENV NEWRELIC_VERSION="9.7.0.258"
 RUN mkdir -p /opt && cd /opt \
   && export NEWRELIC_RELEASE="newrelic-php5-${NEWRELIC_VERSION}-linux-musl" \
   && wget "http://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/${NEWRELIC_RELEASE}.tar.gz" \
@@ -89,16 +89,6 @@ RUN mkdir -p /opt && cd /opt \
   && NR_INSTALL_SILENT=true NR_INSTALL_USE_CP_NOT_LN=true ./newrelic-install install \
   && cd .. \
   && rm -rf "${NEWRELIC_RELEASE}"*
-
-# Disabled till NewRelic fix the memory leak in agent version 9.
-# RUN mkdir -p /opt && cd /opt \
-#   && export NEWRELIC_VERSION=$(curl -sS https://download.newrelic.com/php_agent/release/ | sed -n 's/.*>\(.*linux-musl\).tar.gz<.*/\1/p') \
-#   && wget "http://download.newrelic.com/php_agent/release/${NEWRELIC_VERSION}.tar.gz" \
-#   && gzip -dc ${NEWRELIC_VERSION}.tar.gz | tar xf - \
-#   && cd "${NEWRELIC_VERSION}" \
-#   && NR_INSTALL_SILENT=true NR_INSTALL_USE_CP_NOT_LN=true ./newrelic-install install \
-#   && cd .. \
-#   && rm -rf "${NEWRELIC_VERSION}"*
 
 # Disabled by default.
 ENV NEWRELIC_ENABLED=0
