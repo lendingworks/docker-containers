@@ -27,6 +27,8 @@ RUN apk add --no-cache --update --virtual build-deps \
     postgresql-dev \
     libmemcached-dev \
     cyrus-sasl-dev \
+    zlib-dev \
+    linux-headers \
   && apk add --no-cache \
     socat \
     libpng \
@@ -56,8 +58,8 @@ RUN apk add --no-cache --update --virtual build-deps \
     xml \
     pcntl \
     iconv \
-  && pecl install igbinary memcached redis \
-  && docker-php-ext-enable igbinary memcached redis \
+  && pecl install igbinary memcached redis grpc \
+  && docker-php-ext-enable igbinary memcached redis grpc \
   && rm -rf /tmp/pear \
   && apk del --no-cache build-deps
 
