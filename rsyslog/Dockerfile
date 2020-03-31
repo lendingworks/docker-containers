@@ -8,6 +8,9 @@ RUN apk add --no-cache --update rsyslog=${RSYSLOG_VERSION} bash \
 
 # Define this to override the remote logs location.
 ENV REMOTE_LOG_SERVER "logs.lendingworks.prod"
+# Define this to control the message levels sent to the remote.
+# Set to "*.*" to send all messages.
+ENV REMOTE_LOG_LEVEL "local6.*"
 
 COPY ./conf/ /etc/
 RUN mv /etc/entrypoint.sh /usr/bin/rsyslog-run
