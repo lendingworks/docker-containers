@@ -6,7 +6,7 @@ FROM lendingworks/php:${PHP_VERSION}-${PHP_TYPE}
 # Increment this to trigger a full rebuild.
 ENV CONTAINER_VERSION '1.0.0'
 
-ARG XDEBUG_VERSION=2.6.0
+ARG XDEBUG_VERSION=2.9.6
 
 RUN apk add --no-cache --update --virtual build-deps ${PHPIZE_DEPS} \
   && pecl install xdebug-${XDEBUG_VERSION} \
