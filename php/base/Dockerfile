@@ -82,7 +82,7 @@ ARG PHP_TYPE
 RUN /usr/local/bin/install-fpm-healthcheck ${PHP_TYPE} ${FPM_HEALTHCHECK_VERSION}
 
 # NewRelic setup.
-ENV NEWRELIC_VERSION="9.7.0.258"
+ENV NEWRELIC_VERSION="9.11.0.267"
 RUN mkdir -p /opt && cd /opt \
   && export NEWRELIC_RELEASE="newrelic-php5-${NEWRELIC_VERSION}-linux-musl" \
   && wget "http://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/${NEWRELIC_RELEASE}.tar.gz" \
