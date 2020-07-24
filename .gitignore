@@ -1,7 +1,9 @@
-.idea
+.idea/
+.vscode/
 .sublime*
 *.pyc
 .env
+.venv
 dist/
 node_modules/
 yarn-error.log

@@ -17,6 +17,3 @@ indent_size = 4
 
 [nginx.conf]
 indent_size = 4
-
-[application.conf]
-indent_size = 4
