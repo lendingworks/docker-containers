@@ -14,7 +14,7 @@ ENV LOGLEVEL info
 ENV NODE_ENV production
 
 RUN apk add --update --no-cache ca-certificates tzdata \
-    && rm -f /tmp/* /etc/apk/cache/*
+    && rm -rf /tmp/* /etc/apk/cache/*
 
 ENV TZ Europe/London
 

@@ -1,7 +1,7 @@
 ARG ALPINE_VERSION=3.10
 FROM alpine:${ALPINE_VERSION}
 
-ARG KUBECTL_VERSION=1.16.4
+ARG KUBECTL_VERSION=1.16.12
 
 RUN apk add --update --no-cache \
   bash \

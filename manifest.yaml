@@ -1,0 +1,139 @@
+# Contains a list of all containers in this repository.
+# This is consumed by `build.py`.
+containers:
+  - name: awscli
+    path: awscli
+    # This can be overriden if required.
+    # dockerfile: Dockerfile
+    tags:
+      - latest
+      - '1.18.104'
+
+  - name: corvus
+    path: corvus
+    tags:
+      - latest
+      - '0.27'
+
+  - name: db-schema-syncer
+    path: db-schema-syncer
+    tags:
+      - latest
+      - 'v1.0.0'
+
+# Not in use.
+#  - name: fluentd
+#    path: fluentd
+#    tags:
+#      - latest
+#      - '1.3'
+#      - '1.3.1'
+
+  - name: github-org-backup
+    path: github-org-backup
+    tags:
+      - latest
+      - v1
+
+  - name: kubectl
+    path: kubectl
+    tags:
+      - latest
+      - '1.16'
+      - '1.16.12'
+
+  - name: newrelic-php-daemon
+    path: newrelic-php-daemon
+    tags:
+      - latest
+      - v2
+
+  - name: nginx
+    path: nginx/base
+    tags:
+      - latest
+      - '1.15'
+
+  - name: php
+    path: php/base
+    build_args:
+      - 'PHP_TYPE=cli'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - 'latest-cli'
+
+  - name: php
+    path: php/base
+    build_args:
+      - 'PHP_TYPE=fpm'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - 'latest-fpm'
+
+  - name: php
+    path: php/base
+    build_args:
+      - 'PHP_TYPE=cli'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - '7.2-cli'
+
+  - name: php
+    path: php/base
+    build_args:
+      - 'PHP_TYPE=fpm'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - '7.2-fpm'
+
+  - name: php-dev
+    path: php/dev
+    build_args:
+      - 'PHP_TYPE=cli'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - 'latest-cli'
+
+  - name: php-dev
+    path: php/dev
+    build_args:
+      - 'PHP_TYPE=fpm'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - 'latest-fpm'
+
+  - name: php-dev
+    path: php/dev
+    build_args:
+      - 'PHP_TYPE=cli'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - '7.2-cli'
+
+  - name: php-dev
+    path: php/dev
+    build_args:
+      - 'PHP_TYPE=fpm'
+      - 'PHP_VERSION=7.2'
+    tags:
+      - '7.2-fpm'
+
+  - name: puppeteer
+    path: puppeteer
+    tags:
+      - latest
+      - '2-node12'
+
+  - name: rsyslog
+    path: rsyslog
+    tags:
+      - latest
+      - '8'
+      - '8.1911.0-r1'
+
+# Not in use.
+#  - name: secret-syncer
+#    path: secret-syncer
+#    tags:
+#      - latest
+#      - v1
