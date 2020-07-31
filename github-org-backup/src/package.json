@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/node": "^13.5.0",
     "@types/node-fetch": "^2.5.4",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.4",
     "typescript": "^3.7.5"
   }
 }
