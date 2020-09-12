@@ -14,7 +14,7 @@
     "@octokit/rest": "^16.38.3",
     "@zeit/ncc": "^0.21.0",
     "aws-sdk": "^2.610.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
