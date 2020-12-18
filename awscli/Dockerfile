@@ -10,8 +10,8 @@ RUN apk add --update --no-cache \
     jq \
     pv \
     tzdata \
-    mysql-client=10.3.23-r0 \
-    postgresql-client=11.7-r0 \
+    mysql-client=10.3.25-r0 \
+    postgresql-client=11.10-r0 \
   && pip3 install --upgrade awscli==${AWSCLI_VERSION} boto3 \
   && rm -f /tmp/* /etc/apk/cache/*
 
