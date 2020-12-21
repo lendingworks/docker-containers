@@ -1,4 +1,4 @@
-import * as Octokit from '@octokit/rest';
+import { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
 import * as winston from 'winston';
 import { default as fetch } from 'node-fetch';
 import { S3, SNS } from 'aws-sdk';
@@ -146,22 +146,19 @@ class GithubOrgBackup {
 
     this.logger.info(`${logPrefix} Fetching migration list...`);
 
-    const migrationList = await this.octokit.migrations.listForOrg({
-      org: this.organisation,
-      headers: this.GH_PREVIEW_HEADERS,
-    });
+      const migrationList = await this.octokit.migrations.listForOrg({
+        org: this.organisation,
+        headers: this.GH_PREVIEW_HEADERS,
+        // Only look at the last 10 completed migrations, we assume that any
+        // migrations created before then have already been downloaded.
+        // Iterating through all migrations is overkill.
+        per_page: 10,
+        page: 0,
+      });
 
-    const len = migrationList.data.length;
-    if (len === 0) {
-      this.logger.info(`${logPrefix} No running migrations were found.`);
-      return false;
-    }
-
-    this.logger.info(`${logPrefix} Found ${len} migrations to check`);
-
-    const migrations: Octokit.MigrationsListForOrgResponseItem[] = [];
-    let migration: Octokit.MigrationsListForOrgResponseItem;
-    for (migration of migrationList.data) {
+    type MigrationsListResponse = RestEndpointMethodTypes['migrations']['listForOrg']['response']['data'][0];
+    const migrations: MigrationsListResponse[] = [];
+    for (const migration of migrationList.data) {
       switch (migration.state) {
         case 'pending':
         case 'exporting':
@@ -194,13 +191,18 @@ class GithubOrgBackup {
       }
     }
 
+    if (migrations.length === 0) {
+      this.logger.info(`${logPrefix} No running migrations were found.`);
+      return false;
+    }
+
     this.logger.info(
       `${logPrefix} Found ${migrations.length} existing migrations to evaluate`
     );
 
-    const baseHeaders: {[key: string]: string} = this.GH_PREVIEW_HEADERS;
-    baseHeaders['user-agent'] = 'lendingworks/github-org-backup @ v1';
-    baseHeaders['Authorization'] = `token ${this.ghToken}`;
+    const archiveRequestHeaders: {[key: string]: string} = this.GH_PREVIEW_HEADERS;
+    archiveRequestHeaders['user-agent'] = 'lendingworks/github-org-backup @ v1';
+    archiveRequestHeaders['Authorization'] = `token ${this.ghToken}`;
 
     for (const migration of migrations) {
       // This makes sure that we evaluate each completed migration once.
@@ -233,7 +235,7 @@ class GithubOrgBackup {
           `${migration.url}/archive`,
           {
             method: 'HEAD',
-            headers: baseHeaders,
+            headers: archiveRequestHeaders,
           }
         );
         const resp = await fetch(archiveResp.url);
@@ -258,7 +260,7 @@ class GithubOrgBackup {
           continue;
         }
 
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
           const dest = `${migrationTimestamp}/${migration.id}.tar.gz`;
           this.logger.info(
             `${migrationLogPrefix} Copying migration to S3: ${this.s3Bucket}/${dest}`
@@ -356,15 +358,15 @@ class GithubOrgBackup {
 
     this.logger.info(`${logPrefix} Creating GH migration`);
 
-    const repoList = await this.octokit.repos.listForOrg({
-      org: this.organisation,
-    });
-    const iterator = this.octokit.paginate.iterator(repoList);
+    const paginator = this.octokit.paginate.iterator(
+      this.octokit.repos.listForOrg,
+      {
+        org: this.organisation,
+      }
+    );
     const repoNames: string[] = [];
-
-    for await (const page of iterator) {
-      let repo: Octokit.ReposListForOrgResponseItem;
-      for (repo of page.data) {
+    for await (const page of paginator) {
+      for (const repo of page.data) {
         repoNames.push(repo.full_name);
       }
     }
@@ -715,6 +717,7 @@ if ('SNS_TOPIC_ARN' in process.env && process.env['SNS_TOPIC_ARN'] !== undefined
 
 const backerUpper = new GithubOrgBackup(snsArn);
 backerUpper.run().catch(e => {
+  console.error('Caught error:', e);
   backerUpper.sendAlert(`Error running backup: ${e.message}`).finally(() => {
     process.exitCode = 1;
   });
