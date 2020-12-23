@@ -137,3 +137,10 @@ containers:
 #    tags:
 #      - latest
 #      - v1
+
+  - name: report-generator
+    path: report-generator
+    tags:
+      - latest
+      - '4'
+      - '4.8.2'
