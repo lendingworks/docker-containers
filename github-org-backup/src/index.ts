@@ -581,7 +581,7 @@ class GithubOrgBackup {
             `${backupLogPrefix} Removing backup, retention period has been breached`
           );
           await deleteObject({
-            Key: dailyBackups[timestamp].key,
+            Key: cleanupType.backups[timestamp].key,
           });
           deletionCount++;
         }
