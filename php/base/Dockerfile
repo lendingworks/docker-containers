@@ -1,7 +1,9 @@
 # One of 'cli' or 'fpm' (as per https://hub.docker.com/_/php/).
 ARG PHP_TYPE
 ARG PHP_VERSION=7.4
-FROM php:${PHP_VERSION}-${PHP_TYPE}-alpine
+# There's currently build issues with Alpine 3.13 (DNS lookups fail)
+ARG ALPINE_VERSION=3.12
+FROM php:${PHP_VERSION}-${PHP_TYPE}-alpine${ALPINE_VERSION}
 
 # Increment this to trigger a full rebuild.
 ENV CONTAINER_VERSION '1.0.0'
