@@ -718,7 +718,7 @@ if ('SNS_TOPIC_ARN' in process.env && process.env['SNS_TOPIC_ARN'] !== undefined
 const backerUpper = new GithubOrgBackup(snsArn);
 backerUpper.run().catch(e => {
   console.error('Caught error:', e);
-  backerUpper.sendAlert(`Error running backup: ${e.message}`).finally(() => {
+  backerUpper.sendAlert(`Error running GitHub backup: ${e.message}`).finally(() => {
     process.exitCode = 1;
   });
 });
