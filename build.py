@@ -181,7 +181,7 @@ def trigger_build(
     tag_args = [f"--tag={tag}" for tag in tags]
     buildarg_args = [f"--build-arg={arg}" for arg in build_args]
 
-    cli_args = ['docker', 'build', '--pull']
+    cli_args = ['docker', 'build']
     cli_args += tag_args
     cli_args += buildarg_args
     cli_args += [f"--file={dockerfile_name}", context_path]
